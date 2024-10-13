@@ -46,13 +46,12 @@ jobs:
           file: ./Dockerfile              # Path to the Dockerfile
           push: true                      # Push the image to the registry
           tags: |
-            ghcr.io/${{ github.repository_owner }}/perp-demo:latest   # Tag as latest
-            ghcr.io/${{ github.repository_owner }}/perp-demo:${{ github.sha }} # Tag with full commit hash
-            ghcr.io/${{ github.repository_owner }}/perp-demo:${{ github.sha::7 }} # Tag with short commit hash
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/perp-demo:latest
+            ghcr.io/${{ github.repository_owner }}/erp-demo:latest   # Tag as latest
+            ghcr.io/${{ github.repository_owner }}/erp-demo:${{ github.sha }} # Tag with full commit hash
+            ghcr.io/${{ github.repository_owner }}/erp-demo:${{ github.sha.substring(0, 7) }} # Tag with short commit hash
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/erp-demo:latest
           cache-to: type=inline
 
       # Optionally, you can add steps for testing or scanning the built image for security issues:
       # Example: Image vulnerability scan (Trivy, Snyk, etc.)
       # Example: Run tests on the built image
-
