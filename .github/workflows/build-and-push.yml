@@ -38,6 +38,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Set short commit hash
+      - name: Set short commit hash
+        id: vars
+        run: echo "SHORT_COMMIT=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
+
       # Build and tag the Docker image with both the commit hash and 'latest' tag
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -48,7 +53,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/erp-demo:latest   # Tag as latest
             ghcr.io/${{ github.repository_owner }}/erp-demo:${{ github.sha }} # Tag with full commit hash
-            ghcr.io/${{ github.repository_owner }}/erp-demo:${{ github.sha.substring(0, 7) }} # Tag with short commit hash
+            ghcr.io/${{ github.repository_owner }}/erp-demo:${{ env.SHORT_COMMIT }} # Tag with short commit hash
           cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/erp-demo:latest
           cache-to: type=inline
 
